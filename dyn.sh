@@ -86,6 +86,15 @@ if [ -f "$outdir/reserve.img" ]; then
 	umount -l $outdir/reserve
 fi
 
+if [ -f "$outdir/vendor.img" ]; then
+	echo "Merging vendor overlays . . . . "
+	mkdir $outdir/vendor
+	mount -o ro $outdir/vendor.img $outdir/vendor/
+	cp -v -r -p $outdir/vendor/overlay/* $working/system/product/overlay/ &> /dev/null
+	sync
+	umount -l $outdir/vendor
+fi
+
 echo "Finalizing . . . . "
 rm -rf $outdir
 
